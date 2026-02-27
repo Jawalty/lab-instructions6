@@ -1,6 +1,6 @@
 ---
 title: "Lab 02 - Global plastic waste"
-author: "[Your Name]"
+author: "Jackson Walterman"
 output: 
   tufte::tufte_handout:
     latex_engine: xelatex
