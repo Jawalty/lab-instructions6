@@ -36,14 +36,14 @@ root <- "https://collections.ed.ac.uk/art/search/*:*/Collection:%22edinburgh+col
 # Step 2: Create a sequence of offset numbers
 # We need: 0, 10, 20, 30, ..., 2960
 # Fill in the blanks:
-offsets <- seq(from = ___, to = ___, by = ___)
+offsets <- seq(from = 0, to = 2960, by = 10)
 
 # Check: How many URLs will we have?
 length(offsets)  # Should be 297
 
 # Step 3: Paste the root and offsets together
 # Fill in the blanks:
-urls <- paste0(___, ___)
+urls <- paste0(root, offsets)
 
 # Check the first few URLs
 head(urls)
@@ -64,7 +64,7 @@ head(urls)
 # The function will scrape 297 pages, one at a time.
 
 # Fill in the blanks:
-uoe_art <- map_dfr(___, ___)
+uoe_art <- map_dfr(urls, scrape_page)
 
 # What this does:
 # - map_dfr takes each element of urls
@@ -99,7 +99,7 @@ glimpse(uoe_art)
 # Save the scraped data to a CSV file so we can use it in the analysis
 
 # Fill in the blanks:
-write_csv(___, "data/___.csv")
+write_csv(uoe_art, "data/uoe_art.csv")
 
 # Hint: 
 # - First argument: the data frame to save (uoe_art)

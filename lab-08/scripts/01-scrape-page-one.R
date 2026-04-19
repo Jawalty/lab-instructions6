@@ -87,7 +87,7 @@ links <- page %>%
   html_nodes(".iteminfo") %>%
   html_node("h3 a") %>%
   html_attr("href") %>%
-  str_replace("\\.", "___")         # Replace . with the full URL root
+  str_replace("\\.", "https://collections.ed.ac.uk/art")         # Replace . with the full URL root
 
 # Hint: The pattern "\\." matches a period at the start
 # Replace it with: "https://collections.ed.ac.uk/art"
@@ -105,7 +105,7 @@ links
 # Step 2: Fill in the blanks with the correct CSS selector
 
 artists <- page %>%
-  html_nodes("___") %>%             # Fill in with the correct selector
+  html_nodes(".iteminfo") %>%             # Fill in with the correct selector
   html_text() %>%
   str_squish()
 
@@ -119,9 +119,9 @@ artists
 
 # Fill in the blanks:
 first_ten <- tibble(
-  title = ___,
-  artist = ___,
-  link = ___
+  title = titles,
+  artist = artists,
+  link = links
 )
 
 # Check your work
@@ -141,33 +141,29 @@ second_url <- "___"
 # (You can copy from line 18 onward and change 'first_url' to 'second_url')
 
 # Read the page
-page <- read_html(___)
+page <- read_html(second_url)
 
-# Extract titles
 titles <- page %>%
-  html_nodes("___") %>%
-  html_node("___") %>%
+  html_nodes(".iteminfo") %>%
+  html_node("h3 a") %>%
   html_text() %>%
   str_squish()
 
-# Extract links
 links <- page %>%
-  html_nodes("___") %>%
-  html_node("___") %>%
-  html_attr("___") %>%
-  str_replace("___", "___")
+  html_nodes(".iteminfo") %>%
+  html_node("h3 a") %>%
+  html_attr("href") %>%
+  str_replace("\\.", "https://collections.ed.ac.uk/art")
 
-# Extract artists  
 artists <- page %>%
-  html_nodes("___") %>%
+  html_nodes(".iteminfo") %>%
   html_text() %>%
   str_squish()
 
-# Combine into tibble
 second_ten <- tibble(
-  title = ___,
-  artist = ___,
-  link = ___
+  title = titles,
+  artist = artists,
+  link = links
 )
 
 # Check your work
