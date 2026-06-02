@@ -194,7 +194,7 @@ After you complete all three scripts, you'll have a CSV file in your `data` fold
 🧶 ✅ ⬆️ **Remember to commit and push after completing each script!**
 
 ---
-boom
+boom 1
 # Part 2: Analysis
 
 **Welcome back!** If you've completed the three scraping scripts, you should now have a file called `uoe_art.csv` in your `data` folder.
