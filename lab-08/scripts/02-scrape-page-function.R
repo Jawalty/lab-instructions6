@@ -71,7 +71,7 @@ scrape_page <- function(url) {
   )
 }
 
-# Hints:
+# Hints: finished
 # - The input is called 'url', so use that variable name
 # - Copy code from script 01, but replace specific URLs with 'url'
 # - The function should return the tibble (last line)
