@@ -135,7 +135,7 @@ first_ten
 # Step 1: Go to the website and click "Next" to go to page 2
 # Step 2: Copy the URL from your browser and paste it below
 
-second_url <- "___"
+second_url <- "https://collections.ed.ac.uk/art/search/*:*/Collection:%22edinburgh+college+of+art%7C%7C%7CEdinburgh+College+of+Art%22?offset=0&offset=10"
 
 # Step 3: Copy and adapt the scraping code from above
 # (You can copy from line 18 onward and change 'first_url' to 'second_url')
