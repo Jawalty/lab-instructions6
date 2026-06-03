@@ -8,11 +8,43 @@ library(rvest)
 # Load your function from script 02
 # (Copy and paste the scrape_page function here, or source the file)
 
-scrape_page <- function(url) {
   # Your function from script 02
-  # (Copy it here)
+  scrape_page <- function(url) {
+  
+  # Read the page
+  page <- read_html(url)
+  
+  # Extract titles
+  titles <- page %>%
+    html_nodes(".iteminfo") %>%
+    html_node("h3 a") %>%
+    html_text() %>%
+    str_squish()
+  
+  # Extract links
+  links <- page %>%
+    html_nodes(".iteminfo") %>%
+    html_node("h3 a") %>%
+    html_attr("href") %>%
+    str_replace("\\.", "https://collections.ed.ac.uk/art")
+  
+  # Extract artists
+  artists <- page %>%
+    html_nodes(".iteminfo") %>%
+    html_nodes(".artist") %>%
+    html_text() %>%
+    str_squish()
+  
+  # Create and return tibble
+  tibble(
+    title = titles,
+    artist = artists,
+    link = links
+  )
 }
 
+
+  
 
 # UNDERSTANDING THE URL PATTERN
 # ==============================
@@ -74,12 +106,12 @@ uoe_art <- map_dfr(urls, scrape_page)
 
 # Optional: Add a progress indicator and delay to be polite
 # (Uncomment if you want to use this instead)
-# uoe_art <- map_dfr(urls, function(url) {
-#   message("Scraping: ", url)           # Show progress
-#   result <- scrape_page(url)
-#   Sys.sleep(0.5)                       # Wait 0.5 seconds between requests
-#   result
-# })
+ uoe_art <- map_dfr(urls, function(url) {
+   message("Scraping: ", url)           # Show progress
+   result <- scrape_page(url)
+   Sys.sleep(0.5)                       # Wait 0.5 seconds between requests
+   result
+ })
 
 
 # VERIFY THE RESULTS
