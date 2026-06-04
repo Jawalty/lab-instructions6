@@ -61,6 +61,7 @@ scrape_page <- function(url) {
     html_nodes(".iteminfo") %>%
     html_nodes(".artist") %>%
     html_text() %>%
+    replace_na("Unknown") %>%
     str_squish()
   
   # Create and return tibble

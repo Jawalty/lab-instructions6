@@ -9,39 +9,21 @@ library(rvest)
 # (Copy and paste the scrape_page function here, or source the file)
 
   # Your function from script 02
-  scrape_page <- function(url) {
-  
-  # Read the page
+scrape_page <- function(url) {
   page <- read_html(url)
+  items <- html_nodes(page, ".iteminfo")
   
-  # Extract titles
-  titles <- page %>%
-    html_nodes(".iteminfo") %>%
-    html_node("h3 a") %>%
-    html_text() %>%
-    str_squish()
+  titles <- items %>% html_node("h3 a") %>% html_text() %>% str_squish()
+  links <- items %>% html_node("h3 a") %>% html_attr("href") %>% str_replace("\\.", "https://collections.ed.ac.uk/art")
+  artists <- map_chr(items, function(item) {
+    a <- html_node(item, ".artist") %>% html_text()
+    if (is.na(a)) return(NA_character_)
+    str_squish(a)
+  })
   
-  # Extract links
-  links <- page %>%
-    html_nodes(".iteminfo") %>%
-    html_node("h3 a") %>%
-    html_attr("href") %>%
-    str_replace("\\.", "https://collections.ed.ac.uk/art")
-  
-  # Extract artists
-  artists <- page %>%
-    html_nodes(".iteminfo") %>%
-    html_nodes(".artist") %>%
-    html_text() %>%
-    str_squish()
-  
-  # Create and return tibble
-  tibble(
-    title = titles,
-    artist = artists,
-    link = links
-  )
+  tibble(title = titles, artist = artists, link = links)
 }
+
 
 
   

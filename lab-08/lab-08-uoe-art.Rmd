@@ -204,7 +204,7 @@ Let's load that data and analyze it.
 ## Load the Scraped Data
 ```{r load-scraped-data, eval = TRUE}
 #remember to switch eval = FALSE to TRUE when you have your data
-uoe_art <- read_csv("data/uoe_art.csv")
+uoe_art <- read_csv("/home/jovyan/lab-instructions8/data/uoe_art.csv")
 ```
 
 **Verify it loaded correctly:**
@@ -262,7 +262,7 @@ Now let's extract just the year from the date column and save it as a numeric va
 # Remember to change eval=FALSE to eval=TRUE!
 uoe_art <- uoe_art %>%
   mutate(
-    year = str_extract(date, "\\d{4}"),     # Extract 4-digit number
+    year = str_extract(title, "\\d{4}"),     # Extract 4-digit number
     year = as.numeric(year)                  # Convert to numeric
   )
 ```
@@ -330,10 +330,11 @@ Find which piece has the out of the ordinary year and go to its page on the art 
 ```{r find-outlier, eval = TRUE}
 # Remember to change eval=FALSE to eval=TRUE!
 uoe_art %>%
-  filter(year < 1500 | year > 2030)  # Look for unreasonable years
+  filter(year < 1900) %>%
+  select(title, year)
 ```
 
-**Visit the link for this piece and find the correct year:** 
+**Visit the link for this piece and find the correct year:** It returned zero, I'm confused on how to find the outlier piece.
 
 **Why didn't our code capture it correctly?**
 
@@ -344,16 +345,22 @@ uoe_art %>%
 # Remember to change eval=FALSE to eval=TRUE!
 uoe_art <- uoe_art %>%
   mutate(year = if_else(
-    title == "___",          # Condition: if title equals the problematic one
-    ___,                    # Then: set year to correct value
-    ___                     # Else: keep original year
+    title == "Mary Ann Park Sampler",          # Condition: if title equals the problematic one
+    1819,                    # Then: set year to correct value
+    year                     # Else: keep original year
   ))
 ```
 
 **Recreate the histogram to verify the fix:**
-```{r verify-fix, eval = FALSE}
+```{r verify-fix, eval = TRUE}
 # Remember to change eval=FALSE to eval=TRUE!
-# Your histogram code from Exercise 11
+ggplot(data = uoe_art, aes(x = year)) +
+  geom_histogram(binwidth = 10) +
+  labs(
+    title = "Distribution of uoe art collection by year",
+    x = "year",
+    y = "count"
+  )
 ```
 
 ---
@@ -361,23 +368,23 @@ uoe_art <- uoe_art %>%
 ## Exercise 13
 
 Who is the most commonly featured artist in the collection? Do you know them? Any guess as to why the university has so many pieces from them?
-```{r most-common-artist, eval = FALSE}
+```{r most-common-artist, eval = TRUE}
 # Remember to change eval=FALSE to eval=TRUE!
 uoe_art %>%
-  count(___, sort = TRUE) %>%
+  count(artist, sort = TRUE) %>%
   head(10)
 ```
 
-**Most common artist:** 
+**Most common artist:** Is Unknown, but the highest known artist is Emma Gillies.
 
-**Number of pieces:** 
+**Number of pieces:** Unknown has 6 and Emma has 3.
 
-**Do you know this artist?** 
-
-
+**Do you know this artist?**  I personally do not, but I am not well diversed in the artist realm.
 
 
-**Why might the university have so many of their pieces?**
+
+
+**Why might the university have so many of their pieces?** They could be historical and represent parts of history that are difficultly portrayed through words.
 
 
 
@@ -390,21 +397,21 @@ uoe_art %>%
 Final question! How many art pieces have the word "child" in their title? Make sure to capture both "child" and "Child".
 
 **Hint:** `str_detect()` can be helpful here. You can use `(?i)` in your pattern to make it case-insensitive, or use `str_to_lower()` first.
-```{r count-child, eval = FALSE}
+```{r count-child, eval = TRUE}
 # Remember to change eval=FALSE to eval=TRUE!
 
 # Option 1: Case-insensitive search
 uoe_art %>%
-  filter(str_detect(___, "(?i)child")) %>%
+  filter(str_detect(title, "(?i)child")) %>%
   nrow()
 
 # Option 2: Convert to lowercase first
 uoe_art %>%
-  filter(str_detect(str_to_lower(___), "___")) %>%
+  filter(str_detect(str_to_lower(title), "child")) %>%
   nrow()
 ```
 
-**Number of pieces with "child" in the title:** _____
+**Number of pieces with "child" in the title:** Zero for both.
 
 🧶 ✅ ⬆️ **Knit, commit with message "Completed Exercise 14", and push your changes.**
 
