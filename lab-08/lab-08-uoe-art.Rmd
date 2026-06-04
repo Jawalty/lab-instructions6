@@ -2,14 +2,14 @@
 title: "Lab 08 - University of Edinburgh Art Collection"
 author: "Jackson Walterman"
 output: 
-  tufte::tufte_html:
-    css: ../lab.css
-    tufte_variant: "envisioned"
-    highlight: pygments
   tufte::tufte_handout:
     latex_engine: xelatex
     highlight: pygments
     keep_tex: true
+  tufte::tufte_html:
+    css: ../lab.css
+    tufte_variant: "envisioned"
+    highlight: pygments
 link-citations: yes
 ---
 ```{r setup, include=FALSE}
@@ -282,15 +282,15 @@ uoe_art <- uoe_art %>%
 ## Exercise 10
 
 Print out a summary of the data frame using the `skim()` function. How many pieces have artist info missing? How many have year info missing?
-```{r skim-data, eval = FALSE}
+```{r skim-data, eval = TRUE}
 # Remember to change eval=FALSE to eval=TRUE!
-skim(___)
+skim(uoe_art)
 ```
 
 **Your findings:**
 
-- Number of pieces with missing artist: _____
-- Number of pieces with missing year: _____
+- Number of pieces with missing artist: 108
+- Number of pieces with missing year: 782
 
 **Why might this information be missing?**
 
@@ -301,20 +301,20 @@ skim(___)
 ## Exercise 11
 
 Make a histogram of years. Use a reasonable binwidth. Do you see anything out of the ordinary?
-```{r year-histogram, eval = FALSE}
+```{r year-histogram, eval = TRUE}
 # Remember to change eval=FALSE to eval=TRUE!
-ggplot(data = uoe_art, aes(x = ___)) +
-  geom_histogram(binwidth = ___) +
+ggplot(data = uoe_art, aes(x = year)) +
+  geom_histogram(binwidth = 10) +
   labs(
-    title = "___",
-    x = "___",
-    y = "___"
+    title = "Distribution of uoe art collection by year",
+    x = "year",
+    y = "count"
   )
 ```
 
 **Hint:** Try a binwidth of 10 or 20 years.
 
-**What looks out of the ordinary?**
+**What looks out of the ordinary?** There's an outlier in the 1700's.
 
 
 
@@ -327,10 +327,10 @@ ggplot(data = uoe_art, aes(x = ___)) +
 Find which piece has the out of the ordinary year and go to its page on the art collection website to find the correct year for it. Can you tell why our code didn't capture the correct year information? Correct the error in the data frame and visualize the data again.
 
 **Find the problematic observation:**
-```{r find-outlier, eval = FALSE}
+```{r find-outlier, eval = TRUE}
 # Remember to change eval=FALSE to eval=TRUE!
 uoe_art %>%
-  filter(year < 1000 | year > 2030)  # Look for unreasonable years
+  filter(year < 1500 | year > 2030)  # Look for unreasonable years
 ```
 
 **Visit the link for this piece and find the correct year:** 
@@ -340,11 +340,11 @@ uoe_art %>%
 
 
 **Correct the error:**
-```{r fix-year, eval = FALSE}
+```{r fix-year, eval = TRUE}
 # Remember to change eval=FALSE to eval=TRUE!
 uoe_art <- uoe_art %>%
   mutate(year = if_else(
-    ___ == "___",          # Condition: if title equals the problematic one
+    title == "___",          # Condition: if title equals the problematic one
     ___,                    # Then: set year to correct value
     ___                     # Else: keep original year
   ))
